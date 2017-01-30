@@ -1,0 +1,82 @@
+ 
+exercise 2: functions
+ 
+1) Find out how many managers there are without listing them. 
+
+SELECT COUNT(*) FROM emp WHERE job='MANAGER';
+
+3.
+ 
+2) Compute the average annual salary + commission for all 
+salesman
+
+SELECT AVG((sal+comm)*12) FROM emp WHERE job='SALESMAN';
+
+avg(sal+comm)*12 23,400
+ 
+3) Find the highest and lowest paid employees and the difference 
+between them
+
+SELECT MAX(sal), MIN(sal), MAX(sal)-MIN(sal) FROM emp;
+
+max(sal) 5,000
+min(sal) 800
+max(sal)-min(sal) 4200
+ 
+4) Find the number of characters in the longest department name
+
+SELECT MAX(LENGTH(dname)) from DEPT;
+
+max(length(dname)) 10
+ 
+5) Count the number of people in department 30 who receive 
+a salary and the number of people who receive a commission
+
+SELECT COUNT(*) FROM emp 
+	WHERE deptno='30' AND comm>'0';
+SELECT COUNT(*S) FROM emp
+	WHERE deptno='30' AND sal>'0';
+
+count(sal) 6
+count(comm) 4
+ 
+6) List the average commission of employees who receive a 
+commission and the average commission of all employees (treating 
+employees who do not receive a commission as receiving a zero 
+commission)
+
+SELECT AVG(comm) FROM emp WHERE comm>'0';
+SELECT AVG(comm) FROM emp;
+avg(comm) 550
+avg(nvl(comm,0)) 157.142857
+ 
+7) List the average salary of employees that receive a salary, 
+the average commission of employees that receive a commission, 
+the average salary plus commission of only those employees that 
+receive a commission and average salary plus commission of all 
+employees including those who do not receive a commission
+
+SELECT AVG(sal) FROM emp WHERE sal>'0';
+SELECT AVG(comm) FROM emp WHERE comm>'0';
+SELECT AVG(sal+comm) FROM emp WHERE comm>'0';
+SELECT AVG(comm) FROM emp;
+
+avg(sal) 2,073.21
+avg(comm) 550.00
+avg(sal+comm) 1,950.00
+avg(sal+nvl(comm,0)) 1,933.23
+ 
+8) Compute the daily and hourly salaries for emplyees 
+in department 30. Round the results to the nearest penny. Assume 
+there are 22 working days in a month and 8 working hours in a day.
+
+SELECT ename, ROUND(sal/22, 2) FROM emp WHERE deptno='30';
+SELECT ename, ROUND(sal/22/8, 2) FROM emp WHERE deptno='30';
+
+ 
+9) Issue the same query as the previous one except that this time 
+truncate (trunc) to the nearest penny rather than round.
+
+SELECT ename, TRUNC(sal/22, 2) FROM emp WHERE deptno='30';
+SELECT ename, TRUNC(sal/22/8, 2) FROM emp WHERE deptno='30';
+

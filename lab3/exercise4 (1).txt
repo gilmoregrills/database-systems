@@ -1,0 +1,95 @@
+
+Exercise 1: joines
+ 
+1) Find the name and salary of employees in dallas
+
+SELECT ename, sal
+	FROM emp E, dept D
+	WHERE D.loc='DALLAS';
+ 
+2) Join the dept table to the emp table and show in department 
+number order
+
+SELECT *
+	FROM emp E, dept D
+	ORDER BY D.deptno;
+ 
+3) List all departments that have employees plus those 
+departments that do not have employees
+
+SELECT dname
+	FROM emp E, dept D
+	WHERE E.deptno=D.deptno; - this is wrong but this question makes no sense??
+ 
+4) List all departments that do not have any employees:
+
+if what they want is a left outer join I've got
+
+SELECT D.deptno, E.deptno, ename, dname
+FROM dept D LEFT OUTER JOIN emp E
+ON D.deptno = E.deptno;
+
+and we can confirm that operations has no employees by doing 
+
+SELECT * FROM emp WHERE deptno='40';
+ 
+5) Find all the employees that earn more than jones 
+usingtemporary labels to abreviate table names
+
+SELECT * 
+	FROM emp E
+	WHERE E.sal > (SELECT e.sal
+		FROM E
+		WHERE E.ename='JONES');
+ 
+6) For each employee whose salary exceeds his manager's salary 
+list the employee's name and a salary and the manager's name and 
+salary
+
+CREATE GLOBAL TEMPORARY TABLE managers
+	(ename VARCHAR2(10), sal NUMBER(7,2), empno (NUMBER(4)) ON COMMIT DELETE ROWS;
+
+INSERT INTO managers
+	SELECT ename, sal, empno
+	FROM emp
+	WHERE job='MANAGER';
+
+
+SELECT E.ename, E.sal, M.ename, M.sal
+	FROM emp E, managers M
+	WHERE E.mgr=M.empno AND E.sal>M.sal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

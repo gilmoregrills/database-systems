@@ -1,28 +1,73 @@
 
 Exercise 5: group by
  
-1) List the department number and average salary of each 
+/1) List the department number and average salary of each 
 department
- 
-2) Divide all employees into groups by department and by 
+
+I was overthinking it
+
+SELECT deptno, AVG(sal) 
+FROM emp
+GROUP BY deptno;
+
+/2) Divide all employees into groups by department and by 
 job within department. Count the employees in each group 
 and compute each groups average annual salary
+
+SELECT deptno, job, AVG(sal)
+FROM emp
+GROUP BY deptno, job;
+
+bonus: ORDER BY job - makes it interesting
  
-3) Issue the same query as above except list the department name 
+/3) Issue the same query as above except list the department name 
 rather than the department number
  
-4) List the average annual salary for all job groups having more 
+SELECT D.dname, job, AVG(sal)
+FROM dept D, emp E
+GROUP BY D.dname, E.job;
+
+/4) List the average annual salary for all job groups having more 
 than 2 employees in the group
- 
+
+SELECT AVG(sal*12), job,
+FROM emp
+GROUP BY job
+HAVING COUNT(job) > 2;
+
 5) List all the departments that have at least two clerks
+
+SELECT D.dname, D.deptno
+FROM dept D, emp E
+HAVING E.job='clerk';
  
+SELECT D.dname, E.deptno, COUNT(SELECT * FROM E.deptno WHERE E.job='CLERK') AS clerks
+FROM dept D, emp E
+HAVING clerks > 2;
+
 6) Find all departments with an average commission greaterthan 
 25% of average salary
+
+SELECT D.dname, E.deptno
+FROM dept D, emp E
+HAVING AVG(comm) > AVG(sal)/4;
  
+SELECT D.dname, E.deptno, AVG(E.comm) AS avgcomm, AVG(E.sal) AS avgsal
+FROM dept D, emp E
+HAVING avgcomm > avgsal;
+
+
 7) Find each departments average annual salary for all its 
 employees except the manager's and the president's
- 
-8) List the average annual salary for all job groups having more 
+
+
+
+/8) List the average annual salary for all job groups having more 
 than two employees in a group
- 
- 
+
+IDENTICAL TO #4?
+
+SELECT AVG(sal*12), job,
+FROM emp
+GROUP BY job
+HAVING COUNT(job) > 2;

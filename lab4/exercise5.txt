@@ -1,0 +1,28 @@
+
+Exercise 5: group by
+ 
+1) List the department number and average salary of each 
+department
+ 
+2) Divide all employees into groups by department and by 
+job within department. Count the employees in each group 
+and compute each groups average annual salary
+ 
+3) Issue the same query as above except list the department name 
+rather than the department number
+ 
+4) List the average annual salary for all job groups having more 
+than 2 employees in the group
+ 
+5) List all the departments that have at least two clerks
+ 
+6) Find all departments with an average commission greaterthan 
+25% of average salary
+ 
+7) Find each departments average annual salary for all its 
+employees except the manager's and the president's
+ 
+8) List the average annual salary for all job groups having more 
+than two employees in a group
+ 
+ 

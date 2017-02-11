@@ -56,6 +56,11 @@ SELECT D.dname, E.deptno, AVG(E.comm) AS avgcomm, AVG(E.sal) AS avgsal
 FROM dept D, emp E
 HAVING avgcomm > avgsal;
 
+SELECT D.dname, E.deptno/D.deptno
+FROM dept D, emp E
+WHERE AVG(E.comm) > AVG(E.sal/25)
+GROUP BY D.dname, E,deptno
+
 
 7) Find each departments average annual salary for all its 
 employees except the manager's and the president's

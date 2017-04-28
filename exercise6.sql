@@ -31,12 +31,12 @@ SELECT ename, job, dname FROM  emp, dept WHERE job LIKE (SELECT job FROM emp WHE
 SELECT * FROM emp WHERE deptno=10 AND job IN (SELECT job FROM emp WHERE deptno=(SELECT deptno FROM dept WHERE dname LIKE 'SALES'));
 #(it's the same as 2!)
  
-6) Find the employees located in chicago who have the same job as 
-allan. return the results in alphabetical order by employee name
+#6) Find the employees located in chicago who have the same job as 
+#allan. return the results in alphabetical order by employee name
 
 SELECT * FROM emp WHERE deptno=(SELECT deptno FROM dept WHERE loc LIKE 'CHICAGO') AND job LIKE (SELECT job FROM emp WHERE ename LIKE 'ALLEN') ORDER BY ename;
  
-7) Find all employees that earn more than the average salary of 
-employees in their department
+#7) Find all employees that earn more than the average salary of 
+#employees in their department
 
 SELECT * FROM  

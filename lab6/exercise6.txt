@@ -1,0 +1,24 @@
+
+Exercise 6: Subqueries
+ 
+1) List the name and job of employees who have the same job as 
+jones
+ 
+2) Find all the employees in department 10 who have a job that is 
+the same as anyone in department 30
+ 
+3) List the name, job title and salary of employees who have the 
+same job and salary as ford
+ 
+4) List the name, job and department of employees who have the 
+same job as jones or a salary greater than or equal to ford
+ 
+5) Find all the employees in department 10 that have a job that 
+is the same as anyone in the sales department
+ 
+6) Find the employees located in chicago who have the same job as 
+allan. return the results in alphabetical order by employee name
+ 
+7) Find all employees that earn more than the average salary of 
+employees in their department
+ 

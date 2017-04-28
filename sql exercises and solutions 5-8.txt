@@ -1,0 +1,552 @@
+ 
+EXERCISE 5: GROUP BY
+ 
+1) LIST THE DEPARTMENT NUMBER AND AVERAGE SALARY OF EACH 
+DEPARTMENT
+ 
+2) DIVIDE ALL EMPLOYEES INTO GROUPS BY DEPARTMENT AND BY 
+JOB WITHIN DEPARTMENT. COUNT THE EMPLOYEES IN EACH GROUP 
+AND COMPUTE EACH GROUPS AVERAGE ANNUAL SALARY
+ 
+3) ISSUE THE SAME QUERY AS ABOVE EXCEPT LIST THE DEPARTMENT NAME 
+RATHER THAN THE DEPARTMENT NUMBER
+ 
+4) LIST THE AVERAGE ANNUAL SALARY FOR ALL JOB GROUPS HAVING MORE 
+THAN 2 EMPLOYEES IN THE GROUP
+ 
+5) LIST ALL THE DEPARTMENTS THAT HAVE AT LEAST TWO CLERKS
+ 
+6) FIND ALL DEPARTMENTS WITH AN AVERAGE COMMISSION GREATERTHAN 
+25% OF AVERAGE SALARY
+ 
+7) FIND EACH DEPARTMENTS AVERAGE ANNUAL SALARY FOR ALL ITS 
+EMPLOYEES EXCEPT THE MANAGER'S AND THE PRESIDENT'S
+ 
+8) LIST THE AVERAGE ANNUAL SALARY FOR ALL JOB GROUPS HAVING MORE 
+THAN TWO EMPLOYEES IN A GROUP
+ 
+ 
+ 
+ 
+EXERCISE 5 - GROUP BY ANSWER SHEET
+ 
+1. SELECT DEPTNO ,AVG (SAL )
+FROM EMP GROUP BY DEPTNO ;
+ 
+ 
+2. SELECT DEPTNO, JOB, COUNT ( * ), AVG ( SAL ) * 12 FROM EMP 
+GROUP BY DEPTNO, JOB :
+ 
+3. SELECT DNAME, JOB, COUNT ( * ), AVG ( SAL ) * 12 FROM EMP, 
+DEPT
+WHERE DEPT .DEPTNO = EMP. DEPTNO GROUP BY DNAME, JOB ;
+ 
+4. SELECT JOB, COUNT ( * ), AVG ( SAL ) * 12 FROM EMP
+GROUP BY JOB HAVING COUNT ( * ) > 2 ;
+ 
+5. SELECT DEPTNO
+FROM EMP
+WHERE JOB = ' CLERK '
+GROUP BY DEPTNO HAVING COUNT ( * ) > = 2 ;
+ 
+6.  SELECT DEPTNO, AVG ( SAL ), AVG ( COMM ), AVG ( SAL ) * 0.25
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG (COMM ) > AVG ( SAL ) * 0. 25 ;
+ 
+7. SELECT DEPTNO, AVG(SAL) * 12
+FROM EMP
+WHERE JOB NOT IN ( ' MANAGER ', ' PRESIDENT ' ) GROUP BY DEPTNO ;
+ 
+8. SELECT JOB, COUNT ( * ), AVG ( SAL ) * 12 FROM EMP GROUPBY JOB 
+HAVING COUNT ( * ) > 2 ;
+ 
+EXERCISE 6: SUBQUERIES
+ 
+1) LIST THE NAME AND JOB OF EMPLOYEES WHO HAVE THE SAME JOB AS 
+JONES
+ 
+2) FIND ALL THE EMPLOYEES IN DEPARTMENT 10 WHO HAVE A JOB THAT IS 
+THE SAME AS ANYONE IN DEPARTMENT 30
+ 
+3) LIST THE NAME, JOB TITLE AND SALARY OF EMPLOYEES WHO HAVE THE 
+SAME JOB AND SALARY AS FORD
+ 
+4) LIST THE NAME, JOB AND DEPARTMENT OF EMPLOYEES WHO HAVE THE 
+SAME JOB AS JONES OR A SALARY GREATER THAN OR EQUAL TO FORD
+ 
+5) FIND ALL THE EMPLOYEES IN DEPARTMENT 10 THAT HAVE A JOB THAT 
+IS THE SAME AS ANYONE IN THE SALES DEPARTMENT
+ 
+6) FIND THE EMPLOYEES LOCATED IN CHICAGO WHO HAVE THE SAME JOB AS 
+ALLAN. RETURN THE RESULTS IN ALPHABETICAL ORDER BY EMPLOYEE NAME
+ 
+7) FIND ALL EMPLOYEES THAT EARN MORE THAN THE AVERAGE SALARY OF 
+EMPLOYEES IN THEIR DEPARTMENT
+ 
+EXERCISE 6 - SUB QUERIES ANSWER SHEET
+  
+1. SELECT ENAME, JOB
+FROM EMP
+WHERE JOB =
+( SELECT JOB
+FROM EMP
+WHERE ENAME = 'JONES ' ) ;
+ 
+2. SELECT ENAME, JOB
+FROM EMP
+WHERE DEPTNO = 10
+AND JOB IN
+(SELECT JOB
+FROM EMP WHERE DEPTNO = 30 ) ;
+ 
+3. SELECT ENAME, JOB, SAL
+FROM EMP
+WHERE (JOB, SAL ) =
+(SELECT JOB, SAL
+FROM EMP
+WHERE ENAME = ' FORD ' ) ;
+ 
+4. SELECT ENAME, JOB, DEPTNO, SAL
+FROM EMP
+WHERE JOB IN
+( SELECT JOB
+FROM EMP WHERE ENAME = ' JONES ' )
+OR SAL >=
+(SELECT SAL
+FROM EMP WHERE ENAME = 'FORD ' )
+ORDER BY JOB, SAL ;
+ 
+5. SELECT ENAME, JOB
+FROM EMP
+WHERE DEPTNO = 10
+AND JOB IN
+( SELECT JOB
+FROM EMP
+WHERE DEPTNO IN
+( SELECT DEPTNO
+FROM DEPT
+WHERE DNAME = ' SALES ' ) ) ;
+ 
+ 
+6. SELECT ENAME, LOC, SAL, JOB FROM EMP, DEPT
+WHERE LOC = 'CHICAGO ' AND EMP. DEPTNO = DEPT.  DEPTNO AND JOB IN
+( SELECT JOB
+FROM EMP
+WHERE ENAME = ' ALLAN ' ) ORDER BY ENAME ;
+ 
+ 
+ 
+7. SELECT DEPTNO, ENAME, SAL FROM EMP X
+WHERE SAL >
+( SELECT AVG ( SAL )
+FROM EMP
+WHERE X.  DEPTNO = DEPTNO) ORDER BY DEPTNO;
+
+EXERCISE 7: DATA MANIPULATION
+ 
+1) CREATE A NEW TABLE CALLED LOANS WITH COLUMNS NAMED 
+LNO NUMBER(3), EMPNO NUMBER(4), TYPE CHAR(1), AMNT NUMBER(8,2)
+ 
+2) INSERT THE FOLLOWING DATA:
+LNO, EMPNO, TYPE, AMNT
+23, 7499, M, 20000.00
+42, 7499, C, 2000.00
+65, 7844, M, 3564.20
+ 
+3) CHECK YOU HAVE CREATED 3 NEW RECORDS IN LOANS
+ 
+4) THE LOANS TABLE MUST BE ALTERED TO INCLUDE ANOTHER COLUMN: 
+OUTST NUMBER(8,2)
+ 
+5) ADD 10% INTEREST TO ALL M-TYPE LOANS
+ 
+6) REMOVE ALL LOANS LESS THAN 3,000 POUNDS
+ 
+7) CHANGE THE NAME OF THE LOANS TABLE TO ACCOUNTS
+ 
+8) CHANGE THE NAME OF COLUMN LNO TO LOANNO
+ 
+9) CREATE A VIEW FOR USE BY PERSONNEL IN DEPARTMENT 30 SHOWING 
+EMPLOYEE NAME, NUMBER, JOB AND HIREDATE.
+ 
+ 
+10) USE THE VIEW TO SHOW EMPLOYEES IN DEPARTMENT 30 HAVING JOBS 
+WHICH ARE NOT SALESMAN
+ 
+11) DROP COLUMN TYPE FROM LOANS TABLE.
+ 
+ 
+ 
+EXERCISE 7 - CREATION OF TABLES ANSWER SHEET
+ 
+ 
+1. CREATE TABLE LOANS ( LNO NUMBER ( 3 ), EMPNO NUMBER ( 4 ),
+TYPE CHAR ( 1 ), AMNT NUMBER ( 8, 2 ) ) ;
+ 
+ 
+2. INSERT INTO LOANS
+VALUES ( 23, 7499, ' M ', 20000.00) ;
+ 
+INSERT INTO LOANS
+VALUES (42, 7499, 'C', 20000.00) ; ETC
+ 
+ 
+3. SELECT * FROM LOANS :
+ 
+ 
+4. ALTER TABLE LOANS
+ADD OUTST_NUMBER ( 8, 2 ) ;
+ 
+ 
+5. UPDATE LOANS SET AMMT = AMMT * 1.1
+WHERE TYPE = 'M ' ;
+ 
+6. DELETE FROM LOANS WHERE AMNT < 30000 ;
+ 
+7. RENAME LOANS TO ACCOUNTS ;
+ 
+8. CREATE TABLE NEWLOANS ( LOANNO, EMPNO, TYPE, AMNT ) AS SELECT 
+* FROM LOANS ;
+ 
+DROP TABLE LOANS ;
+ 
+RENAME NEWLOANS TO LOANS ;
+ 
+9. CREATE VIEW DEPT-30 AS
+ 
+SELECT ENAME, EMPNO, JOB, HIREDATE FROM EMP
+ 
+WHERE DEPTNO = 30 ;
+ 
+10. SELECT * FROM DEPT-30
+ 
+WHERE JOB !  = ' SALESMAN ' ) ;
+ 
+11 CREATE TABLE TEMP (LOANNO, EMPNO, APMM ) AS SELECTLOANNO, 
+EMPNO, AMNT
+FROM LOANS ;
+ 
+DROP TABLE LOANS ;
+ 
+RENAME TEMP TO LOANS ;
+
+
+Exercise 8 (advanced)
+  
+1.   Find details of the second most highly salaried employee.
+ 
+ 
+**SELECT ENAME,SAL FROM EMP
+	WHERE SAL= (SELECT MAX(SAL) FROM EMP
+		   WHERE SAL < (SELECT MAX(SAL) FROM EMP));
+ 
+ 
+2.   Find details of the fifth most highly salaried employee.
+ 
+ 
+**SELECT ENAME,SAL FROM EMP
+	WHERE SAL IN (SELECT MAX(E1.SAL) FROM EMP E1
+	WHERE EXISTS (SELECT NULL FROM EMP E2
+	WHERE E2.SAL >= E1.SAL HAVING COUNT(SAL) > &N-1))
+ 
+OR
+ 
+**SELECT ENAME,SAL FROM EMP
+	WHERE 5 > (SELECT COUNT(*) FROM EMP WHERE E.SAL > SAL)
+ 
+Both these only partially address the problem - PL/SQL is required here!!
+ 
+ 
+3.   Find all departments which do not employ clerks.
+	(There are at least three distinct methods for performing
+	 this - show at least two)
+ 
+ 
+**SELECT DEPT.DEPTNO,DNAME,LOC FROM EMP,DEPT
+	WHERE EMP.DEPTNO(+) = DEPT.DEPTNO
+	AND EMP.JOB(+) = 'CLERK'
+	AND EMP.DEPTNO IS NULL
+OR
+ 
+**SELECT D.DEPTNO,D.DNAME,D.LOC FROM DEPT D
+	WHERE NOT EXISTS (SELECT * FROM EMP WHERE D.DEPTNO = EMP.DEPTNO)
+ 
+ 
+4.   Find the total number of employees in each department.
+ 
+ 
+**SELECT DEPT.DEPTNO,DNAME,COUNT(EMPNO) FROM EMP,DEPT
+	WHERE EMP.DEPTNO(+) = DEPT.DEPTNO
+	GROUP BY DEPTNO
+ 
+ 
+5.   Use a query to display the the information required by the following:
+ 
+		The management would like to see details of employees
+		and their salaries after the following measures
+ 
+All employees earning more than $1000 willreceive an immediate pay cut
+of $500, unless this brings their salary below $1000. If it does, their
+new salary will be $1000.
+ 
+N.B. This is NOT an update - it's a WHAT IF.
+ 
+Output should have the following format
+ 
+	EMPNO	ENAME	AMOUNT DEDUCTED		NEW SALARY
+	-----	-----	---------------		----------
+ 
+ 
+**SELECT EMPNO,ENAME,500 "AMOUNT DEDUCTED",SAL-500 "NEW SALARY"
+		FROM EMP
+		WHERE SAL>=1000+500
+	UNION
+	SELECT EMPNO,ENAME,SAL-1000,1000
+		FROM EMP
+		WHERE SAL BETWEEN 1000 AND 1500
+	UNION
+	SELECT EMPNO,ENAME,0,SAL
+		FROM EMP
+		WHERE SAL-1000<=0
+ 
+ 
+6.  Construct the following tables in your account
+ 
+PROJNO          DEPTNO
+--------------- ------
+P1              10
+P2              30
+P3
+ 
+ENAME      DEPTNO
+---------- ------
+SMITH      10
+JONES      20
+BLOGGS
+MILLER
+ 
+DNAME      DEPTNO
+---------- ------
+YORK       10
+ELY        20
+RYE        30
+WELLS      40
+PERTH
+ 
+ 
+7.  Write two separate queries which will join data from all three tables in an
+    appropriate manner using the foreign keys provided. Your output should
+    consist of eight rows of data if you are to display all the available
+    information. The two queries should show the use of
+ 
+		(i)  OUTER JOINS & UNIONS
+		(ii) UNIONS alone
+ 
+ 
+**SELECT * FROM EMPO,DEPTO,PROJO
+	WHERE EMPO.DEPTNO = DEPTO.DEPTNO(+) AND PROJO.DEPTNO(+) = DEPTO.DEPTNO
+  UNION
+  SELECT * FROM EMPO,DEPTO,PROJO
+	WHERE EMPO.DEPTNO(+) = DEPTO.DEPTNO AND PROJO.DEPTNO = DEPTO.DEPTNO(+)
+  UNION
+  SELECT * FROM EMPO,DEPTO,PROJO
+	WHERE EMPO.DEPTNO(+) = DEPTO.DEPTNO AND PROJO.DEPTNO(+) = DEPTO.DEPTNO
+ 
+ENAME      DEPTNO DNAME      DEPTNO PNAME           DEPTNO
+---------- ------ ---------- ------ --------------- ------
+BLOGGS
+JONES          20 ELY            20
+MILLER
+SMITH          10 YORK           10 P1                  10
+                  PERTH
+                  RYE            30 P2                  30
+                  WELLS          40
+                                    P3
+ 
+ 
+**SELECT ENAME,EMPO.DEPTNO,DNAME,DEPTO.DEPTNO,PNAME,PROJO.DEPTNO
+	FROM EMPO,DEPTO,PROJO
+	WHERE EMPO.DEPTNO = DEPTO.DEPTNO AND PROJO.DEPTNO = DEPTO.DEPTNO
+  UNION
+  SELECT ENAME,EMPO.DEPTNO,DNAME,DEPTO.DEPTNO,NULL,NULL
+	FROM EMPO,DEPTO
+	WHERE EMPO.DEPTNO = DEPTO.DEPTNO
+	AND
+	NOT EXISTS (SELECT * FROM PROJO WHERE PROJO.DEPTNO = DEPTO.DEPTNO)
+  UNION
+  SELECT NULL,NULL,DNAME,DEPTO.DEPTNO,PNAME,PROJO.DEPTNO	
+	FROM DEPTO,PROJO
+	WHERE PROJO.DEPTNO = DEPTO.DEPTNO AND
+	NOT EXISTS (SELECT * FROM EMPO WHERE EMPO.DEPTNO = DEPTO.DEPTNO)
+  UNION
+  SELECT ENAME,EMPO.DEPTNO,NULL,NULL,NULL,NULL
+	FROM EMPO
+	WHERE NOT EXISTS
+		(SELECT * FROM DEPTO WHERE EMPO.DEPTNO = DEPTO.DEPTNO)
+  UNION
+  SELECT NULL,NULL,NULL,NULL,PNAME,PROJO.DEPTNO
+	FROM PROJO
+	WHERE NOT EXISTS
+		(SELECT * FROM DEPTO WHERE PROJO.DEPTNO = DEPTO.DEPTNO)
+  UNION
+  SELECT NULL,NULL,DNAME,DEPTO.DEPTNO,NULL,NULL
+	FROM DEPTO
+	WHERE NOT EXISTS
+		(SELECT * FROM EMPO WHERE EMPO.DEPTNO = DEPTO.DEPTNO
+		 UNION
+		 SELECT * FROM PROJO WHERE PROJO.DEPTNO = DEPTO.DEPTNO)
+ 
+ 
+8.   Find all employees who joined the company at least six months before
+     their managers
+ 
+ 
+**SELECT E.EMPNO,E.HIREDATE EMP_HIRE,
+	M.HIREDATE MGR_HIRE, ADD_MONTHS(E.HIREDATE,6) EMP_6MON
+		FROM EMP E,EMP M
+		WHERE E.MGR = M.EMPNO
+		AND ADD_MONTHS(E.HIREDATE,6)<M.HIREDATE
+ 
+ 
+9.   List lowest paid employees working for each manager (MGR). Exclude
+     any data where the salary is less than 1000. Sort the output on salary.
+ 
+ 
+**SELECT MGR, MIN(SAL) FROM EMP
+	GROUP BY MGR
+	HAVING MIN(SAL) <= 1000
+	ORDER BY MIN(SAL)
+ 
+ 
+10.  Find details of the employee with the lowest salary figure in each
+     department.
+ 
+ 
+**SELECT EMPNO,ENAME,SAL,DEPTNO FROM EMP Y
+WHERE SAL = (SELECT MIN(SAL) FROM EMP X WHERE X.DEPTNO = Y.EMP.DEPTNO)
+ 
+ 
+ 
+ 
+11.  In which year did most people join the company? Display the year
+     and number of employees.
+ 
+ 
+**SELECT TO_CHAR(HIREDATE,'YYYY') YEAR,COUNT(EMPNO) NUM_OF_EMPS
+	FROM EMP
+	GROUP BY TO_CHAR(HIREDATE,'YYYY')
+	HAVING COUNT(EMPNO) =
+		(SELECT MAX(COUNT(EMPNO))
+		 FROM EMP
+		 GROUP BY TO_CHAR(HIREDATE,'YYYY'))
+ 
+ 
+12.  Create a view showing employees' salaries and jobs which may only
+     be used between the hours of 11:00 and 13:00 each day. Use the view
+     to show details of employees earning more than $2000.
+ 
+ 
+**CREATE VIEW EMPTIME
+	AS SELECT EMPNO,ENAME,JOB,SAL FROM EMP
+		WHERE TO_CHAR(SYSDATE,'HH24') BETWEEN 11 AND 13
+		WITH CHECK OPTION
+ 
+**SELECT * FROM EMPTIME WHERE SAL>2000 (Done outside of 11-13:00)
+ 
+ 
+13.  Devise a query to show employees with their jobs, but where there are
+     clerks the 'JOB' should be classified as 'INDIAN' and where there are
+     managers the 'JOB' should be shown as 'CHIEF'. Anyone else should
+     be regarded as 'OTHER'.
+ 
+ 
+**SELECT ENAME,
+	 DECODE(JOB,'CLERK','INDIAN','MANAGER','CHIEF','OTHER') JOB
+	 FROM EMP
+ 
+ 
+14.  Write a query which shows employees with their hiredates and first
+     paydays. The rules about first salary payments are that if the date
+     of hiring is in the first 15 days of the month, the first salary
+     will be paid on the last friday of the same month. If the employee
+     is hired after the first fifteen days, then payment is made on the
+     last friday of the following month.
+ 
+     Your output should have the following appearance.
+ 
+		ENAME      HIREDATE  PAYDAY
+		---------- --------- ---------
+		SMITH      17-DEC-80 30-JAN-81
+		ALLEN      20-FEB-81 27-MAR-81
+		JONES      02-APR-81 24-APR-81
+		BLAKE      01-MAY-81 29-MAY-81
+		CLARK      09-JUN-81 26-JUN-81
+		TURNER     08-SEP-81 25-SEP-81
+		MARTIN     28-SEP-81 30-OCT-81
+		KING       17-NOV-81 25-DEC-81
+		FORD       03-DEC-81 25-DEC-81
+		SCOTT      09-DEC-82 31-DEC-82
+		ADAMS      12-JAN-83 28-JAN-83
+ 
+ 
+**SELECT ENAME,HIREDATE,DECODE(SIGN(TO_CHAR(HIREDATE,'DD')-15)),
+	1,NEXT_DAY(LAST_DAY(ADD_MONTHS(HIREDATE,1)),6)-7,
+	NEXT_DAY(LAST_DAY(HIREDATE),6)-7) PAYDAY
+	FROM EMP
+	ORDER BY HIREDATE
+ 
+ 
+15.  From the details available in the following PROJECTS table show
+     names of projects along with the nearest date to today's date on
+     which they have been, are, or will be active.
+ 
+		PROJNO	PNAME		START_DATE	END_DATE
+		------	-------------	----------	---------
+		     1	ACCOUNTING	01-FEB-90	23-APR-90
+		     2	SALESORDERS	31-MAY-90	30-APR-91
+		     3	DELIVERIES	02-MAR-91	31-MAR-91
+		     4	SUPPORT		20-JUL-88	20-AUG-89
+		     5	MIS		15-JAN-90	17-OCT-90
+ 
+     (You will need to set up a PROJECTS table containing this data in
+      appropriate format)
+ 
+SELECT PNAME,LEAST(END_DATE,GREATEST(START_DATE,TRUNC(SYSDATE)))
+FROM PROJECTS
+ 
+ 
+16.  Find the department with the highest total labour costs.
+ 
+ 
+SELECT DEPT.DEPTNO,DNAME,SUM(SAL*12+NVL(COMM,0)*12) COMPENSATION
+	FROM EMP,DEPT
+	WHERE EMP.DEPTNO = DEPT.DEPTNO
+	GROUP BY DEPT.DEPTNO,DNAME
+	HAVING SUM(SAL*12+NVL(COMM,0)*12) =
+		(SELECT MAX(SUM(SAL*12+NVL(COMM,0)*12))
+			FROM EMP
+			GROUP BY DEPTNO)
+ 
+ 
+17.  Write a query to calculate the length of time in completed months
+     and years that any employee  of the users'choice
+     has been with the company.
+ 
+     (Hint: - you will need to use FLOOR, MOD, MONTHS_BETWEEN and '&'
+      in order to produce the following output.
+ 
+SQL> Enter value for employee_name: KING
+ 
+		ENAME	LENGTH OF SERVICE
+		------	---------------------
+		KING	8 YEARS 6 MONTHS
+ 
+ 
+**SELECT ENAME,FLOOR(MONTHS_BETWEEN(SYSDATE,HIREDATE)/12)||' YEARS '||
+	FLOOR(MOD(MONTHS_BETWEEN(SYSDATE,HIREDATE),12)||' MONTHS '
+	"LENGTH OF SERVICE"
+	FROM EMP
+	WHERE ENAME = UPPER('&EMPLOYEE_NAME')
+ 
+
